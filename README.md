@@ -35,8 +35,8 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 ###
 ## Install
 
-    $ git clone https://github.com/aldocosta/emuelecbrowsertool/tree/master
-    $ cd PROJECT_TITLE
+    $ git clone https://github.com/aldocosta/emuelecbrowsertool
+    $ cd emuelecbrowsertool
     $ yarn install or npm i
 
 ## Configure app
