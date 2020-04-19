@@ -1,0 +1,67 @@
+<%- contentFor('body') %>
+
+<h3>Diretorio atual: <span class="label label-default">
+        <%=title %>
+    </span></h3>
+<table class="table striped " id='dirTable'>
+    <thead>
+        <tr>
+            <th>
+                Nome do diretorio/arquivo
+            </th>
+            <th>
+                Opções
+            </th>
+            <th>
+                Marcar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(var i =0; i< directoryInfo.length;i++) { %>
+        <tr>
+            <td>
+                <a href="/diretorio?path=<%=directoryInfo[i].fullname %>">
+                    <%=directoryInfo[i].name %>
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-primary" href="#" role="button"
+                    onClick="main.pages.DirectoryInfo.showModalExcluir('<%=directoryInfo[i].name %>','<%=directoryInfo[i].fullname %>')">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
+                <a class="btn btn-primary" href="#" role="button">
+                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                </a>
+            </td>
+            <td>
+                <input type="checkbox" aria-label="Marcar">
+            </td>
+        </tr>
+        <% }%>
+    </tbody>
+</table>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id='modalExcluir'>
+    <form method="POST" action="remove-file">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Exclusão de Registro</h4>
+                    <input type="hidden" name="registro" value="" id='hdRegName'>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja realmente excluir o registro <span id='regName'></span> ? Este processo é irreversivel!!!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </form>
+</div><!-- /.modal -->
