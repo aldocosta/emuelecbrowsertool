@@ -8,6 +8,8 @@ module.exports = function (app) {
     router.get('/', hc.homeGET)
     router.get('/diretorio', hc.directoryGET)
     router.post('/remove-file', hc.removeFile)
+    router.post('/remove-file-list', hc.removeFileList)
+
     
     app.use(router)
 }

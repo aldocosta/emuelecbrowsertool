@@ -7,14 +7,15 @@ const expresslayout = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 
 const app = express()
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.use(expresslayout)
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+
 
 const homeRoute = require('./routes/home')(app)
 

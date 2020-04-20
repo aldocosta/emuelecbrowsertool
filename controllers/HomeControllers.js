@@ -2,44 +2,65 @@ const emuelecService = require('../services/ssh.services')
 
 function Controllers() {
     this.homeGET = async (req, res) => {
+        let refers = req.headers.host + req.query.path
         try {
             let data = await emuelecService.listFoldersFromRoot()
-            res.render('pages/home', { data: data })
+            res.render('pages/directoryInfo', { directoryInfo: data, title: 'Raiz' })
         } catch (error) {
-            res.status(500).json(error)
+            res.render('pages/erro', { erro: error.stack })
         }
     }
+
     this.directoryGET = async (req, res) => {
+        let refers = req.headers.host + req.query.path
+        let diretorio = req.query.path
         try {
-            let diretorio = req.query.path            
             let title = diretorio
             let dataDir = await emuelecService.listFoldersFromDirectory(diretorio)
-            let data = await emuelecService.listFoldersFromRoot()
-            res.render('pages/directoryInfo', { directoryInfo: dataDir, data: data, title: title })
+            res.render('pages/directoryInfo', { directoryInfo: dataDir, title: title })
         } catch (error) {
-            res.status(500).json(error)
+            res.render('pages/erro', { erro: error.stack })
         }
     }
+
     this.removeFile = async (req, res) => {
-        let refers = req.headers.referer
+        let refers = req.headers.host + req.query.path
         try {
             let registro = req.body.registro
 
             await emuelecService.removeFile(registro)
-            
+
             res.redirect(refers)
         } catch (error) {
-            res.redirect(refers)
+            res.render('pages/erro', { erro: error.stack })
         }
-        // let diretorio = req.query.path
-        // let splited = diretorio.split('/')
-        // let title = splited[splited.length - 1]
-        // //await emuelecService.removeFile(diretorio)
-
-        // let dataDir = await emuelecService.listFoldersFromDirectory(diretorio)
-        // let data = await emuelecService.listFoldersFromRoot()
-        // res.render('pages/directoryInfo', { directoryInfo: dataDir, data: data, title: title })
     }
+
+    this.removeFileList = async (req, res) => {
+        let refers = req.headers.host + req.query.path
+        try {
+            const files = req.body.files
+
+            const promises = []
+            files.forEach(p => {                
+                promises.push(emuelecService.removeFile(p))
+            });
+
+            await Promise.race(promises)
+
+            res.status(200).json({ message: 'Arquivos removidos' })
+        } catch (error) {
+            res.render('pages/erro', { erro: error.stack })
+        }
+    }
+}
+
+async function sleep(timeout) {
+    return new Promise((f, r) => {
+        setTimeout(() => {
+            f()
+        }, timeout)
+    })
 }
 
 module.exports = Controllers

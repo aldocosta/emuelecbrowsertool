@@ -34,11 +34,10 @@ module.exports = {
                             r(error)
                         }
                     })
-                    //return sftp.list(p)
                 })
                 .then((data) => {
                     f(data)
-                    return sftp.end();
+                    sftp.end();
                 })
                 .catch(err => {
                     r(err)
@@ -51,7 +50,6 @@ module.exports = {
         let p = new Promise((f, r) => {
             sftp.connect(config)
                 .then(p => {
-                    //return sftp.list(directoryName)
                     return new Promise(async (f, r) => {
                         try {
                             let lista = await sftp.list(directoryName)
@@ -79,15 +77,19 @@ module.exports = {
         })
         return p
     },
-    removeFile: async(fullFileName) => {
+    removeFile: async (fullFileName) => {
         return new Promise((f, r) => {
             sftp.connect(config)
                 .then(() => {
+                    console.error(`Tentando deletar ${fullFileName}`);
                     return sftp.delete(fullFileName);
                 })
                 .then(() => {
-                    f('Registro removido')
-                    sftp.end();
+                    console.error(`Tentando fechar conexao`);
+                    return sftp.end()
+                })
+                .then(()=>{
+                    f()
                 })
                 .catch(err => {
                     r(err)
