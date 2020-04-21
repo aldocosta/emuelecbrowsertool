@@ -1,29 +1,26 @@
 <%- contentFor('body') %>
 
-<h3>Actual Folder: <span class="label label-default">
-        <%=title %>
+<h3>Upload your files here: <span class="label label-default">        
     </span></h3>
-<div class="row" style="margin: 0px 0 2px 0;height: 40px;">
+<div class="row">
     <div class="col-md-8"></div>
-    <div class="col-md-4">
-        <!-- <span style="float: right;font-size: 15pt;" id='spnLoadingProcessarTodos' class="label label-danger"></span> -->
-        <button id='spnLoadingProcessarTodos' style="float: right;margin:2px;display: none;" class="btn btn-danger"
-            onClick="main.pages.DirectoryInfo.showModalExcluir()">
-        </button>
-    </div>
+    <div class="col-md-4"><button style="position:relative;float:right;" class="btn btn-default"
+            onclick="main.pages.DirectoryInfo.postCheckboxArrays()">
+            Process <span id='spnLoadingProcessarTodos' style="display: none;">Loading.....</span>
+        </button></div>
 </div>
 
 <table class="table table-striped table-hover" id='dirTable'>
     <thead>
         <tr>
             <th>
-                Directory/File Name
+                Nome do diretorio/arquivo
             </th>
             <th>
-                Options
+                Opções
             </th>
             <th>
-                Check
+                Marcar
             </th>
         </tr>
     </thead>
@@ -37,21 +34,16 @@
                 <input type="hidden" value="<%=directoryInfo[i].fullname %>">
             </td>
             <td>
-                <!-- <a class="btn btn-primary" href="#" role="button"
+                <a class="btn btn-primary" href="#" role="button"
                     onClick="main.pages.DirectoryInfo.showModalExcluir('<%=directoryInfo[i].name %>','<%=directoryInfo[i].fullname %>')">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </a> -->
+                </a>
                 <a class="btn btn-primary" href="#" role="button">
                     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                 </a>
-                <a class="btn btn-primary" href="#" role="button">
-                    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-                </a>
             </td>
             <td>
-                <input type="checkbox" aria-label="Marcar" id='chk<%=i%>'
-                    onChange="main.pages.DirectoryInfo.countChecked()">
-                <label for="chk<%=i%>">Remove</label>
+                <input type="checkbox" aria-label="Marcar">Remover?
             </td>
         </tr>
         <% }%>
@@ -66,16 +58,16 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Do you really want to process those files?</h4>
+                    <h4 class="modal-title">Exclusão de Registro</h4>
                     <input type="hidden" name="registro" value="" id='hdRegName'>
                 </div>
                 <div class="modal-body">
-                    <p>All checked files will be deleted and can't be recovered!!!
+                    <p>Deseja realmente excluir o registro <span id='regName'></span> ? Este processo é irreversivel!!!
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" onClick="main.pages.DirectoryInfo.postCheckboxArrays()" class="btn btn-danger">Excluir</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

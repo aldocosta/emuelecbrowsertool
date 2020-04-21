@@ -3,12 +3,11 @@ main.pages = main.pages || {}
 
 main.pages.DirectoryInfo = {
     showModalExcluir: (nomeArquivo, fullNomeArquivo) => {
-        $('#regName').html(nomeArquivo)
-        $('#hdRegName').val(fullNomeArquivo)
+        // $('#regName').html(nomeArquivo)
+        // $('#hdRegName').val(fullNomeArquivo)
         $('#modalExcluir').modal()
     },
     postCheckboxArrays: (arrs) => {
-        $('#spnLoadingProcessarTodos').show()
         let arr = []
         $('#dirTable tbody tr')
             .each((i, v) => {
@@ -39,11 +38,26 @@ main.pages.DirectoryInfo = {
             })
             .then((response) => {
                 window.location.reload()
-                $('#spnLoadingProcessarTodos').hide()
             })
             .catch((err) => {
                 console.log('Erro:', err)
-                $('#spnLoadingProcessarTodos').hide()
             })
+    }, countChecked: () => {
+        let checkedCounter = 0
+        $('#dirTable tbody tr')
+            .each((i, v) => {
+                let flag = $(v).find('input:checkbox').is(':checked')
+                if (flag) {
+                    checkedCounter++
+                }
+            })
+        if (checkedCounter > 0) {
+            $('#spnLoadingProcessarTodos').html(`${checkedCounter} to delete!`).show()
+        }
+        else {
+            $('#spnLoadingProcessarTodos').html('').hide()
+        }
+    }, askProcessAll: () => {
+
     }
 }

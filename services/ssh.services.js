@@ -31,13 +31,14 @@ module.exports = {
                             })
                             f(_lista)
                         } catch (error) {
+                            sftp.end()
                             r(error)
                         }
                     })
                 })
                 .then((data) => {
                     f(data)
-                    sftp.end();
+                    sftp.end()
                 })
                 .catch(err => {
                     r(err)
@@ -61,6 +62,7 @@ module.exports = {
                                 }
                             })
                             f(_lista)
+                            sftp.end()
                         } catch (error) {
                             r(error)
                         }
@@ -68,7 +70,7 @@ module.exports = {
                 })
                 .then((data) => {
                     f(data)
-                    return sftp.end();
+                    //return sftp.end();
                 })
                 .catch(err => {
                     r(err)
@@ -84,13 +86,13 @@ module.exports = {
                     console.error(`Tentando deletar ${fullFileName}`);
                     return sftp.delete(fullFileName);
                 })
-                .then(() => {
-                    console.error(`Tentando fechar conexao`);
-                    return sftp.end()
+                .then((data) => {
+                    console.error(`Tentando fechar conexao`, data);
+                    sftp.end()
                 })
-                .then(()=>{
-                    f()
-                })
+                // .then(() => {
+                //     f()
+                // })
                 .catch(err => {
                     r(err)
                     console.error(err.message);
