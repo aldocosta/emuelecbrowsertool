@@ -1,6 +1,7 @@
 'use strict';
 
 const Client = require('ssh2-sftp-client');
+const fs = require('fs')
 
 const config = {
     host: process.env.EMUELECHOST,
@@ -62,7 +63,7 @@ module.exports = {
                                 }
                             })
                             f(_lista)
-                            sftp.end()
+                            return sftp.end()
                         } catch (error) {
                             r(error)
                         }
@@ -70,7 +71,7 @@ module.exports = {
                 })
                 .then((data) => {
                     f(data)
-                    //return sftp.end();
+                    //sftp.end();
                 })
                 .catch(err => {
                     r(err)
@@ -87,16 +88,36 @@ module.exports = {
                     return sftp.delete(fullFileName);
                 })
                 .then((data) => {
-                    console.error(`Tentando fechar conexao`, data);
-                    sftp.end()
+                    console.log(data);
+                    return sftp.end()
                 })
-                // .then(() => {
-                //     f()
-                // })
-                .catch(err => {
+                .then((data)=>{
+                    console.log(`Tentando fechar a conexao ${data}`)
+                    f()
+                })
+                .catch(err => {                    
                     r(err)
                     console.error(err.message);
                 })
+        })
+    },
+    putFile: (localFilePath, remoteFilePath) => {
+
+        return new Promise((f, r) => {
+            let data = fs.createReadStream(localFilePath);
+            let remote = remoteFilePath;
+
+            sftp.connect(config)
+                .then(() => {
+                    return sftp.put(data, remote);
+                })
+                .then(() => {
+                    f()
+                    sftp.end();
+                })
+                .catch(err => {
+                    r(err.message);
+                });
         })
     }
 }

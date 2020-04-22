@@ -22,8 +22,10 @@
             <th>
                 Options
             </th>
-            <th>
-                Check
+            <th>                
+                <input type="checkbox" aria-label="Marcar" id='chkCheckAll'
+                onChange="main.pages.DirectoryInfo.checkAll()">
+            <label for="chkCheckAll">Check All</label>
             </th>
         </tr>
     </thead>
@@ -44,13 +46,13 @@
                 <a class="btn btn-primary" href="#" role="button">
                     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                 </a>
-                <a class="btn btn-primary" href="#" role="button">
+                <a class="btn btn-primary" href="/upload-files?uploadFolder=<%=directoryInfo[i].fullname %>" role="button">
                     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
                 </a>
             </td>
             <td>
                 <input type="checkbox" aria-label="Marcar" id='chk<%=i%>'
-                    onChange="main.pages.DirectoryInfo.countChecked()">
+                    onChange="main.pages.DirectoryInfo.countChecked(this)">
                 <label for="chk<%=i%>">Remove</label>
             </td>
         </tr>

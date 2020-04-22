@@ -1,75 +1,30 @@
 <%- contentFor('body') %>
+<form action="/upload-files" method="POST" enctype="multipart/form-data">
+    <h3>Upload your files here to
+        <span class="label label-default" id='uploadFolder'>
+            <%=uploadFolder %>
+            <input type="hidden" name="uploadFolder" value="<%=uploadFolder %>">
+        </span>
+    </h3>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4"><button type="submit" style="position:relative;float:right;" class="btn btn-primary">
+                Upload Files
+            </button></div>
+    </div>
 
-<h3>Upload your files here: <span class="label label-default">        
-    </span></h3>
-<div class="row">
-    <div class="col-md-8"></div>
-    <div class="col-md-4"><button style="position:relative;float:right;" class="btn btn-default"
-            onclick="main.pages.DirectoryInfo.postCheckboxArrays()">
-            Process <span id='spnLoadingProcessarTodos' style="display: none;">Loading.....</span>
-        </button></div>
-</div>
+    <div class="row">
 
-<table class="table table-striped table-hover" id='dirTable'>
-    <thead>
-        <tr>
-            <th>
-                Nome do diretorio/arquivo
-            </th>
-            <th>
-                Opções
-            </th>
-            <th>
-                Marcar
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <% for(var i =0; i< directoryInfo.length;i++) { %>
-        <tr>
-            <td>
-                <a href="/diretorio?path=<%=directoryInfo[i].fullname %>">
-                    <%=directoryInfo[i].name %>
-                </a>
-                <input type="hidden" value="<%=directoryInfo[i].fullname %>">
-            </td>
-            <td>
-                <a class="btn btn-primary" href="#" role="button"
-                    onClick="main.pages.DirectoryInfo.showModalExcluir('<%=directoryInfo[i].name %>','<%=directoryInfo[i].fullname %>')">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </a>
-                <a class="btn btn-primary" href="#" role="button">
-                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-                </a>
-            </td>
-            <td>
-                <input type="checkbox" aria-label="Marcar">Remover?
-            </td>
-        </tr>
-        <% }%>
-    </tbody>
-</table>
-
-
-<div class="modal fade" tabindex="-1" role="dialog" id='modalExcluir'>
-    <form method="POST" action="remove-file">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Exclusão de Registro</h4>
-                    <input type="hidden" name="registro" value="" id='hdRegName'>
-                </div>
-                <div class="modal-body">
-                    <p>Deseja realmente excluir o registro <span id='regName'></span> ? Este processo é irreversivel!!!
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Excluir</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </form>
-</div><!-- /.modal -->
+        <input type="file" name="games">
+        <input type="file" name="games">
+        <!-- <input type="file" id="f2" name="f2"> -->
+        <!-- <input type="file" id="f3" name="f3">
+        <input type="file" id="f4" name="f4">
+        <input type="file" id="f5" name="f5">
+        <input type="file" id="f6" name="f6">
+        <input type="file" id="f7" name="f7">
+        <input type="file" id="f8" name="f8">
+        <input type="file" id="f9" name="f9">
+        <input type="file" id="f10" name="f10"> -->
+    </div>
+</form>

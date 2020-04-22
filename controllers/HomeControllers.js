@@ -2,7 +2,7 @@ const emuelecService = require('../services/ssh.services')
 
 function Controllers() {
     this.homeGET = async (req, res) => {
-        
+
         try {
             emuelecService.listFoldersFromRoot()
                 .then((data) => {
@@ -46,9 +46,59 @@ function Controllers() {
         try {
             const files = req.body.files
 
-            Promise.all(files.map(item => emuelecService.removeFile(p)))
+            try {
+                Promise.all(files.map(item => {
+                    return emuelecService.removeFile(item)
+                }))
+                    .then((data) => {
+                        res.status(200).json({ message: 'Arquivos removidos' })
+                    })
+                    .catch((error) => {
+                        res.render('pages/erro', { erro: error.stack })
+                    })
+            } catch (error) {
+                console.log(error)
+            }
 
-            res.status(200).json({ message: 'Arquivos removidos' })
+
+        } catch (error) {
+            res.render('pages/erro', { erro: error.stack })
+        }
+    }
+
+    this.uploadFilesGET = async (req, res) => {
+        try {
+            let uploadFolder = req.query.uploadFolder
+            res.render('pages/upload', { uploadFolder: uploadFolder })
+        } catch (error) {
+            res.render('pages/erro', { erro: error.stack })
+        }
+    },
+        this.uploadFilesPOST = async (req, res) => {
+            try {
+                let uploadFolder = req.query.uploadFolder
+                res.render('pages/upload', { uploadFolder: uploadFolder })
+            } catch (error) {
+                res.render('pages/erro', { erro: error.stack })
+            }
+        }
+
+    this.uploadFilesALLPOST = (req, res) => {
+        try {
+            // console.log(req.files)
+
+
+            const files = req.files
+            let uploadFolder = req.body.uploadFolder
+
+            Promise.all(files.map(item => emuelecService.putFile(item.path, uploadFolder + '/' + item.originalname)))
+                .then(() => {
+                    res.render('pages/upload', { uploadFolder: uploadFolder })
+                })
+                .catch((error) => {
+                    res.render('pages/erro', { erro: error.stack })
+                })
+
         } catch (error) {
             res.render('pages/erro', { erro: error.stack })
         }

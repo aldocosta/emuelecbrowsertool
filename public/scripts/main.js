@@ -37,12 +37,28 @@ main.pages.DirectoryInfo = {
                 console.log('Data', data)
             })
             .then((response) => {
-                window.location.reload()
+                window.location.reload(true)
             })
             .catch((err) => {
                 console.log('Erro:', err)
             })
-    }, countChecked: () => {
+    },
+    checkAll: (el) => {
+        let isCheck = $('#chkCheckAll').is(':checked')
+        if (isCheck) {
+            $('#spnLoadingProcessarTodos').html('Process').show()
+        } else {
+            $('#spnLoadingProcessarTodos').html('Process').hide()
+        }
+        $('#dirTable tbody tr')
+            .each((i, v) => {
+                if (i <= 9) {
+                    $(v).find('input[type=checkbox]').prop("checked", isCheck)
+                }
+            })
+    }
+    ,
+    countChecked: (el) => {
         let checkedCounter = 0
         $('#dirTable tbody tr')
             .each((i, v) => {
@@ -56,6 +72,11 @@ main.pages.DirectoryInfo = {
         }
         else {
             $('#spnLoadingProcessarTodos').html('').hide()
+        }
+        if (checkedCounter == 10) {
+            $.notify("Limited to 9 items per page", "info");
+            $(el).prop("checked", false);
+            checkedCounter = checkedCounter - 1
         }
     }, askProcessAll: () => {
 

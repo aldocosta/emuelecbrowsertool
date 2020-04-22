@@ -38,9 +38,13 @@
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/notify.js"></script>
     <script>
         jQuery(document).ready(function () {
-            $('#dirTable').DataTable({ stateSave: false, paging: false });
+            $('#dirTable').DataTable({
+                stateSave: false, paging: true,
+                "ordering": false, lengthMenu: [9, 15, 18, 25]
+            });
         });
     </script>
 </body>
