@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
     <link rel="stylesheet" href="assets/layout.css">
 </head>
 
@@ -39,12 +40,31 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
     <script type="text/javascript" src="scripts/notify.js"></script>
+    <script src="dropzone-5.7.0/dist/dropzone.js"></script>
     <script>
         jQuery(document).ready(function () {
             $('#dirTable').DataTable({
                 stateSave: false, paging: true,
                 "ordering": false, lengthMenu: [9, 15, 18, 25]
             });
+            console.log('Dropzone', Dropzone)
+            Dropzone.options.frmUpload = {
+                paramName: "file", // The name that will be used to transfer the file
+                timeout:240000,//4 minutes
+                maxFiles:5,
+                addRemoveLinks:true,
+                //maxFilesize: 100, // MB
+                accept: function (file, done) {
+                    if (file.name == "justinbieber.jpg") {
+                        done("Naha, you don't.");
+                    }
+                    else {
+                        done();
+                        console.log('up ok')
+                    }
+                }
+            };
+
         });
     </script>
 </body>

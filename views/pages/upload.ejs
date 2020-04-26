@@ -1,30 +1,7 @@
-<%- contentFor('body') %>
-<form action="/upload-files" method="POST" enctype="multipart/form-data">
-    <h3>Upload your files here to
-        <span class="label label-default" id='uploadFolder'>
-            <%=uploadFolder %>
-            <input type="hidden" name="uploadFolder" value="<%=uploadFolder %>">
-        </span>
-    </h3>
-    <div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4"><button type="submit" style="position:relative;float:right;" class="btn btn-primary">
-                Upload Files
-            </button></div>
+<form action="/upload-files" method="POST" enctype="multipart/form-data" class="dropzone" id='frmUpload'>
+    <input type="hidden" name="uploadFolder" value="<%=uploadFolder %>">
+    <div class="fallback">
+        <input name="games" type="file" />
     </div>
-
-    <div class="row">
-
-        <input type="file" name="games">
-        <input type="file" name="games">
-        <!-- <input type="file" id="f2" name="f2"> -->
-        <!-- <input type="file" id="f3" name="f3">
-        <input type="file" id="f4" name="f4">
-        <input type="file" id="f5" name="f5">
-        <input type="file" id="f6" name="f6">
-        <input type="file" id="f7" name="f7">
-        <input type="file" id="f8" name="f8">
-        <input type="file" id="f9" name="f9">
-        <input type="file" id="f10" name="f10"> -->
-    </div>
+    
 </form>

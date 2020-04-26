@@ -4,9 +4,10 @@ function Controllers() {
     this.homeGET = async (req, res) => {
 
         try {
-            emuelecService.listFoldersFromRoot()
+            let path = '/storage/roms'
+            emuelecService.listFoldersFromDirectory(path)
                 .then((data) => {
-                    res.render('pages/directoryInfo', { directoryInfo: data, title: '/storage' })
+                    res.render('pages/directoryInfo', { directoryInfo: data, title: path })
                 })
                 .catch((error) => {
                     res.render('pages/erro', { erro: error.stack })
@@ -44,21 +45,62 @@ function Controllers() {
 
     this.removeFileList = async (req, res) => {
         try {
-            const files = req.body.files
-
-            try {
-                Promise.all(files.map(item => {
-                    return emuelecService.removeFile(item)
-                }))
-                    .then((data) => {
-                        res.status(200).json({ message: 'Arquivos removidos' })
-                    })
-                    .catch((error) => {
-                        res.render('pages/erro', { erro: error.stack })
-                    })
-            } catch (error) {
-                console.log(error)
+            let files = req.body.files
+            let ret = {
+                err: [],
+                sucess: [],
+                isFirst: true
             }
+
+
+            let fnc = async (files) => {
+        
+                for (let index = 0; index < files.length; index++) {
+                    const item = files[index];
+                    try {
+                        let isOk = item.indexOf('.') > -1
+                        if (isOk) {
+                            await emuelecService.removeFile(item)
+                            ret.sucess.push(`${item} success removed `)
+                        }
+
+                    } catch (error) {
+                        ret.err.push(item)
+                        console.log(error)
+                    }
+                }
+                res.status(200).json({ message: `${ret.sucess.length} files deleted from ${files.length}` })
+            }
+            await fnc(files)
+
+            //éeee
+            // while (fnc(ret).length > 0) {
+
+            // }
+
+
+
+            // for (let index = 0; index < files.length; index++) {
+            //     const item = array[index];
+            //     try {
+            //         let proc = await emuelecService.removeFile(item)
+            //         ret.sucess.push(proc)
+            //     } catch (error) {
+            //         ret.err.push(item)
+            //         console.log(error)
+            //     }
+            // }
+
+            // Promise.all(files.map(item => {
+            //     return emuelecService.removeFile(item)
+            // }))
+            //     .then((data) => {
+            //         res.status(200).json({ message: 'Arquivos removidos' })
+            //     })
+            //     .catch((error) => {
+            //         res.render('pages/erro', { erro: error.stack })
+            //     })
+
 
 
         } catch (error) {

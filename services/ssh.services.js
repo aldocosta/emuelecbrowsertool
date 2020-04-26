@@ -15,7 +15,15 @@ const sftp = new Client('emuelec-client');
 module.exports = {
     listFoldersFromRoot: async () => {
         let p = new Promise(async (f, r) => {
-            sftp.connect(config)
+            let _sftp = {}
+            if (!sftp.endCalled) {
+                _sftp = sftp.end()
+                _sftp = sftp.connect(config)
+            } else {
+                _sftp = sftp.connect(config)
+            }
+
+            _sftp
                 .then(() => {
                     return sftp.cwd();
                 })
@@ -50,7 +58,16 @@ module.exports = {
     },
     listFoldersFromDirectory: (directoryName) => {
         let p = new Promise((f, r) => {
-            sftp.connect(config)
+
+            let _sftp = {}
+            if (!sftp.endCalled) {
+                _sftp = sftp.end()
+                _sftp = sftp.connect(config)
+            } else {
+                _sftp = sftp.connect(config)
+            }
+
+            _sftp
                 .then(p => {
                     return new Promise(async (f, r) => {
                         try {
@@ -82,7 +99,15 @@ module.exports = {
     },
     removeFile: async (fullFileName) => {
         return new Promise((f, r) => {
-            sftp.connect(config)
+            let _sftp = {}
+            if (!sftp.endCalled) {
+                _sftp = sftp.end()
+                _sftp = sftp.connect(config)
+            } else {
+                _sftp = sftp.connect(config)
+            }
+
+            _sftp
                 .then(() => {
                     console.error(`Tentando deletar ${fullFileName}`);
                     return sftp.delete(fullFileName);
@@ -91,11 +116,11 @@ module.exports = {
                     console.log(data);
                     return sftp.end()
                 })
-                .then((data)=>{
+                .then((data) => {
                     console.log(`Tentando fechar a conexao ${data}`)
                     f()
                 })
-                .catch(err => {                    
+                .catch(err => {
                     r(err)
                     console.error(err.message);
                 })
@@ -107,12 +132,21 @@ module.exports = {
             let data = fs.createReadStream(localFilePath);
             let remote = remoteFilePath;
 
-            sftp.connect(config)
+            let _sftp = {}
+            if (!sftp.endCalled) {
+                _sftp = sftp.end()
+                _sftp = sftp.connect(config)
+            } else {
+                _sftp = sftp.connect(config)
+            }
+
+            _sftp
                 .then(() => {
                     return sftp.put(data, remote);
                 })
-                .then(() => {
+                .then((data) => {
                     f()
+                    console.log(data)
                     sftp.end();
                 })
                 .catch(err => {

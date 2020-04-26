@@ -23,7 +23,8 @@ module.exports = function (app) {
     router.get('/', hc.homeGET)
     router.get('/diretorio', hc.directoryGET)
     router.get('/upload-files', hc.uploadFilesGET)
-    router.post('/upload-files', upload.array('games', 2), hc.uploadFilesALLPOST)
+    router.post('/upload-files', upload.array('file', 10), hc.uploadFilesALLPOST)
+    // router.post('/upload-files', upload.array('games', 2), hc.uploadFilesALLPOST)
     router.post('/remove-file', hc.removeFile)
     router.post('/remove-file-list', hc.removeFileList)
 

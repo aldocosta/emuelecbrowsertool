@@ -18,7 +18,8 @@ main.pages.DirectoryInfo = {
                     console.log(`Arquivo a se apagar: ${fullname}`)
                 }
             })
-
+        $('#modalExcluir').modal('hide')
+        
         fetch('/remove-file-list', {
             method: 'POST', // or 'PUT'            
             mode: 'cors', // no-cors, *cors, same-origin
