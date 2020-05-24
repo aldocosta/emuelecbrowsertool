@@ -26,7 +26,7 @@
         </header>
         <%- body %>
         <footer>
-            footer
+            <!-- footer -->
         </footer>
     </div>
 
@@ -45,15 +45,18 @@
         jQuery(document).ready(function () {
             $('#dirTable').DataTable({
                 stateSave: false, paging: true,
-                "ordering": false, lengthMenu: [9, 15, 18, 25]
+                "ordering": true, lengthMenu: [10, 15, 20, 25, 50]
             });
-            console.log('Dropzone', Dropzone)
+
+            var dZUpload = $('#frmUpload')//.dropzone({})
+
             Dropzone.options.frmUpload = {
                 paramName: "file", // The name that will be used to transfer the file
-                timeout:240000,//4 minutes
-                maxFiles:5,
-                addRemoveLinks:true,
-                //maxFilesize: 100, // MB
+                timeout: 240000,//4 minutes
+                maxFiles: 50,
+                addRemoveLinks: true,
+                autoProcessQueue: true,
+                maxFilesize: 1000, // MB
                 accept: function (file, done) {
                     if (file.name == "justinbieber.jpg") {
                         done("Naha, you don't.");
@@ -62,9 +65,15 @@
                         done();
                         console.log('up ok')
                     }
+                },
+                complete: function (file, some) {                                     
+                    dZUpload[0].dropzone.removeFile(file)                    
                 }
             };
+            
 
+
+            //Dropzone.forElement('#frmUpload').removeAllFiles(true)
         });
     </script>
 </body>

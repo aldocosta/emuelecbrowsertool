@@ -7,7 +7,14 @@ function Controllers() {
             let path = '/storage/roms'
             emuelecService.listFoldersFromDirectory(path)
                 .then((data) => {
-                    res.render('pages/directoryInfo', { directoryInfo: data, title: path })
+                    res.render('pages/directoryInfo', {
+                        directoryInfo: data,
+                        title: path,
+                        links: [{
+                            display: '/storage/roms',
+                            value: '/storage/roms'
+                        }]
+                    })
                 })
                 .catch((error) => {
                     res.render('pages/erro', { erro: error.stack })
@@ -23,8 +30,26 @@ function Controllers() {
 
         try {
             let title = diretorio
+            let ttBars = diretorio.split('/')
+            let links = []
+            let previous = ''
+
+            for (let index = 0; index < ttBars.length - 1; index++) {
+                if (index > 0) {
+                    const element = ttBars[index];
+                    previous += `/${element}`
+                    links.push({
+                        display: element,
+                        value: previous
+                    })
+                }
+            }
+
+
             let dataDir = await emuelecService.listFoldersFromDirectory(diretorio)
-            res.render('pages/directoryInfo', { directoryInfo: dataDir, title: title })
+            res.render('pages/directoryInfo', {
+                directoryInfo: dataDir, title: title, links: links
+            })
         } catch (error) {
             res.render('pages/erro', { erro: error.stack })
         }
@@ -54,7 +79,7 @@ function Controllers() {
 
 
             let fnc = async (files) => {
-        
+
                 for (let index = 0; index < files.length; index++) {
                     const item = files[index];
                     try {
